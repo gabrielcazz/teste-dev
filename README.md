@@ -1,4 +1,4 @@
-# To-Do List
+# Lista de Tarefas
 Teste para desenvolvedor.
 <br /><br />
 Este projeto foi gerado com [Angular CLI](https://github.com/angular/angular-cli) versão 9.0.4.
