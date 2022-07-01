@@ -1,0 +1,56 @@
+<div class="container mt-5">
+  <nav class="row">
+    <div class="nav-wrapper color">
+      <span class="brand-logo center">{{title | uppercase}}</span>
+    </div>
+    </nav>
+    <div class="row">
+      <ng-container *ngIf="editMode; then editOn; else editOff"></ng-container>
+      <ng-template #editOff>
+        <button class="btn col s2 offset-s10" (click)="onEditMode()">Adicionar tarefa
+        </button>
+      </ng-template>
+      <ng-template #editOn>
+        <button class="btn col s2 offset-s10" (click)="onEditMode()">Cancelar
+        </button>
+      </ng-template>
+    </div>
+    <div class="row" *ngIf="editMode">
+      <input class="col s8" type="text" placeholder="Adicionar tarefa..." [(ngModel)]="taskName" />
+      <input class="col s8" type="text" placeholder="Adicionar descrição..." [(ngModel)]="taskDesc" />
+      <input class="col s5 disabled" type="date" [(ngModel)]="taskDate" />
+      <button class="btn-floating" (click)="createTask()" [disabled]="taskName === '' || taskDesc === '' || taskDate === ''">
+        +
+      </button>
+    </div>
+    
+    <ul class="collection" *ngIf="tasks.length > 0; else noTask">
+      <ng-container *ngFor="let task of tasks" [ngSwitch]="task.done">
+        <li class="collection-item row" *ngSwitchCase="false">
+          <span class="col s10">
+                {{task.name}} - {{task.description}} - {{task.deadLine}}
+              </span>
+          <div class="col s2 right-align">
+            <button class="btn-floating btn-small red mr-5" (click)="deleteTask(task)">
+              <i class="material-icons">remove</i>
+            </button>
+            <button class="btn-floating btn-small green" (click)="markTaskAsDone(task)">
+              <i class="material-icons">check</i>
+            </button>
+          </div>
+        </li>
+        <li class="collection-item row">
+          <span class="col done" *ngSwitchCase="true">
+              {{task.name}}
+            </span>
+        </li>
+      </ng-container>
+    </ul>
+    <ng-template #noTask>
+      <h3 class="center">Não há tarefas disponíveis.</h3>
+    </ng-template>
+    
+    <button class="btn color" (click)="onClear()" [disabled]="!tasks.length">
+      Limpar tarefas
+    </button>
+    </div>
